@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>DoughKyo | Cart – Doughbest Bread Ever</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fef7e8;
+            color: #2e241f;
+            scroll-behavior: smooth;
+            line-height: 1.4;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f3e9dc;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c07a4b;
+            border-radius: 12px;
+        }
+        h1, h2, h3, .logo-text, .nav-links a {
+            font-family: 'Playfair Display', serif;
+        }
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        header {
+            background: #fffaf3;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.02);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(2px);
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+            flex-wrap: wrap;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+        }
+        .logo-text {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #b45f2b;
+            line-height: 1.1;
+        }
+        .logo-slogan {
+            font-size: 0.85rem;
+            color: #a0653e;
+            margin-top: 4px;
+            font-weight: 500;
+        }
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #4a3527;
+            transition: 0.2s;
+            font-size: 1.05rem;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: #c17b42;
+            border-bottom: 2px solid #e2b181;
+            padding-bottom: 4px;
+        }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .cart-icon {
+            background: #f7e9db;
+            padding: 8px 14px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #2e241f;
+            font-weight: 600;
+        }
+        .cart-icon:hover {
+            background: #eedbcb;
+            transform: scale(1.02);
+        }
+        #cart-count {
+            background: #b45f2b;
+            color: white;
+            border-radius: 30px;
+            padding: 2px 8px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .user-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            background: #f7e9db;
+            padding: 6px 16px 6px 12px;
+            border-radius: 40px;
+            transition: 0.2s;
+        }
+        .user-profile:hover {
+            background: #eedbcb;
+        }
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+        .user-name {
+            font-weight: 600;
+            color: #4a3527;
+            font-size: 0.9rem;
+        }
+        .dropdown-arrow {
+            font-size: 0.7rem;
+            color: #a0653e;
+            transition: transform 0.2s;
+        }
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 12px;
+            background: white;
+            min-width: 200px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: 0.2s;
+            z-index: 200;
+        }
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .dropdown-item {
+            display: block;
+            padding: 14px 20px;
+            color: #4a3527;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .dropdown-item:hover {
+            background: #fef5ea;
+            color: #b45f2b;
+        }
+        .logout-dropdown {
+            color: #c26e38;
+        }
+        .logout-dropdown:hover {
+            background: #fae1c6;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.2s;
+        }
+        .modal.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-content {
+            background: white;
+            max-width: 500px;
+            width: 90%;
+            border-radius: 32px;
+            padding: 32px;
+            transform: scale(0.9);
+            transition: transform 0.3s;
+        }
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #f3e2d0;
+        }
+        .modal-header h3 {
+            font-size: 1.5rem;
+            color: #b45f2b;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #a3856b;
+        }
+        .modal-close:hover {
+            color: #b45f2b;
+        }
+        .modal-field {
+            margin-bottom: 20px;
+        }
+        .modal-field label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4a3527;
+        }
+        .modal-field input, .modal-field textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e2cfba;
+            border-radius: 24px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            background: #fefefd;
+        }
+        .modal-field input:focus, .modal-field textarea:focus {
+            outline: none;
+            border-color: #b45f2b;
+        }
+        .modal-field textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .modal-info {
+            background: #fef5ea;
+            padding: 16px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+        .modal-info p {
+            margin: 8px 0;
+            color: #4a3527;
+        }
+        .modal-info strong {
+            color: #b45f2b;
+        }
+        .modal-btn {
+            width: 100%;
+            background: #b45f2b;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .modal-btn:hover {
+            background: #9b4e1f;
+            transform: translateY(-2px);
+        }
+        .password-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #efdecb;
+        }
+        .toggle-password-form {
+            background: none;
+            border: none;
+            color: #b45f2b;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            text-decoration: underline;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin: 50px 0 12px;
+            color: #4f3322;
+            font-weight: 600;
+        }
+        .cart-page {
+            min-height: 60vh;
+            padding: 60px 0;
+        }
+        .cart-grid {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 40px;
+        }
+        .cart-items {
+            background: white;
+            border-radius: 32px;
+            padding: 24px;
+            box-shadow: 0 12px 24px -12px rgba(0,0,0,0.1);
+        }
+        .cart-summary {
+            background: white;
+            border-radius: 32px;
+            padding: 24px;
+            height: fit-content;
+            box-shadow: 0 12px 24px -12px rgba(0,0,0,0.1);
+        }
+        .cart-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #efdecb;
+        }
+        .cart-item-details h4 {
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+        .cart-item-price {
+            color: #c26e38;
+            font-weight: 600;
+        }
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .cart-qty-btn {
+            background: #f3e1cf;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .cart-qty-btn:hover {
+            background: #dbbc9b;
+        }
+        .cart-remove {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #a3856b;
+        }
+        .delivery-option {
+            background: #fef5ea;
+            border-radius: 24px;
+            padding: 16px;
+            margin-top: 20px;
+        }
+        .delivery-option h4 {
+            color: #b45f2b;
+            margin-bottom: 12px;
+        }
+        .option-buttons {
+            display: flex;
+            gap: 12px;
+        }
+        .option-btn {
+            flex: 1;
+            padding: 10px;
+            background: #f3e1cf;
+            border: none;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .option-btn.active {
+            background: #b45f2b;
+            color: white;
+        }
+        .address-field {
+            margin-top: 12px;
+        }
+        .address-field textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e2cfba;
+            border-radius: 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            background: white;
+            resize: vertical;
+            min-height: 60px;
+        }
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            font-size: 1.1rem;
+        }
+        .summary-total {
+            border-top: 2px solid #e9cfb6;
+            padding-top: 16px;
+            font-weight: 800;
+            font-size: 1.4rem;
+            margin-top: 8px;
+        }
+        .empty-cart {
+            text-align: center;
+            padding: 60px 0;
+            color: #a3856b;
+        }
+        footer {
+            background: #f2e5d8;
+            margin-top: 70px;
+            padding: 36px 0;
+            text-align: center;
+            color: #6c4f37;
+        }
+        .btn-primary {
+            background-color: #b45f2b;
+            border: none;
+            color: white;
+            padding: 12px 28px;
+            font-weight: 600;
+            border-radius: 40px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-primary:hover {
+            background-color: #9b4e1f;
+            transform: translateY(-3px);
+        }
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2e241fe6;
+            color: #ffefdf;
+            padding: 10px 18px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            z-index: 1100;
+            pointer-events: none;
+            opacity: 0;
+            transition: 0.2s;
+        }
+        .logo-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .payment-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.2s;
+        }
+        .payment-modal.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .payment-modal-content {
+            background: white;
+            max-width: 550px;
+            width: 90%;
+            border-radius: 32px;
+            padding: 32px;
+            transform: scale(0.9);
+            transition: transform 0.3s;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .payment-modal.active .payment-modal-content {
+            transform: scale(1);
+        }
+        .payment-modal-content h3 {
+            font-size: 1.8rem;
+            color: #b45f2b;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .payment-option {
+            display: flex;
+            gap: 16px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .pay-method {
+            flex: 1;
+            padding: 12px;
+            background: #f3e9dc;
+            border-radius: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 2px solid transparent;
+        }
+        .pay-method.selected {
+            border-color: #b45f2b;
+            background: #fae1c6;
+            transform: scale(1.02);
+        }
+        .receipt-box {
+            background: #fef5ea;
+            padding: 20px;
+            border-radius: 24px;
+            margin: 20px 0;
+            font-size: 0.9rem;
+            border-left: 4px solid #b45f2b;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+        .payment-form {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f9f3ea;
+            border-radius: 24px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #4a3527;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e2cfba;
+            border-radius: 24px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            background: white;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #b45f2b;
+        }
+        .form-row {
+            display: flex;
+            gap: 12px;
+        }
+        .form-row .form-group {
+            flex: 1;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .modal-btn-custom {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .modal-btn-custom.confirm {
+            background: #b45f2b;
+            color: white;
+        }
+        .modal-btn-custom.confirm:hover {
+            background: #9b4e1f;
+            transform: scale(1.02);
+        }
+        .modal-btn-custom.cancel {
+            background: #e9d9ca;
+        }
+        .modal-btn-custom.cancel:hover {
+            background: #dbbc9b;
+        }
+
+        @media (max-width: 700px) {
+            .navbar {
+                flex-direction: column;
+                gap: 16px;
+            }
+            .cart-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <div class="navbar">
+            <a href="home.html" class="logo">
+                <img src="images/logo.png" alt="DoughKyo Logo" class="logo-icon" onerror="this.style.display='none'">
+                <div class="logo-wrapper">
+                    <span class="logo-text">DoughKyo</span>
+                    <span class="logo-slogan">Doughbest Bread Ever</span>
+                </div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="cart.html" class="active">Cart</a></li>
+            </ul>
+            <div class="nav-right">
+                <div class="user-dropdown">
+                    <div class="user-profile" id="userProfileBtn">
+                        <img src="images/acclogo.png" alt="Profile" class="user-avatar" onerror="this.src='https://via.placeholder.com/36?text=User'">
+                        <span class="user-name" id="userNameDisplay">Guest</span>
+                        <span class="dropdown-arrow" id="dropdownArrow">▼</span>
+                    </div>
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <a href="orderhistory.html" class="dropdown-item">Order History</a>
+                        <a href="#" class="dropdown-item" id="dropdownLogin">My Account</a>
+                        <a href="#" class="dropdown-item" id="dropdownProfile">My Profile</a>
+                        <a href="#" class="dropdown-item logout-dropdown" id="dropdownLogout">Logout</a>
+                    </div>
+                </div>
+                <a href="cart.html" class="cart-icon">
+                    <span>🛒</span>
+                    <span id="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="container cart-page">
+        <h2 class="section-title">Your Basket</h2>
+        <div id="cartPageContainer"></div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>DoughKyo Bakery – SM Mall of Asia (MOA), Pasay City | Mon-Sun 7am - 7pm</p>
+        <p style="margin-top: 12px;">2025 | Doughbest Bread Ever</p>
+    </div>
+</footer>
+
+<div id="toastMsg" class="toast-msg"></div>
+
+<div id="paymentModal" class="payment-modal">
+    <div class="payment-modal-content">
+        <h3>Payment & Receipt</h3>
+        <div id="receiptPreview" class="receipt-box"></div>
+        <div class="payment-option" id="paymentOptions">
+            <div class="pay-method" data-method="Cash">Cash</div>
+            <div class="pay-method" data-method="GCash">GCash</div>
+            <div class="pay-method" data-method="Credit Card">Credit Card</div>
+        </div>
+        <div id="paymentDetailsForm" class="payment-form"></div>
+        <div class="modal-buttons">
+            <button class="modal-btn-custom cancel" id="cancelPayment">Cancel</button>
+            <button class="modal-btn-custom confirm" id="confirmPayment">Confirm Order</button>
+        </div>
+    </div>
+</div>
+
+<div id="accountModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>My Account</h3>
+            <button class="modal-close" id="closeAccountModal">&times;</button>
+        </div>
+        <div class="modal-info" id="accountInfo">
+            <p><strong>Name:</strong> <span id="accountName">Loading...</span></p>
+            <p><strong>Email:</strong> <span id="accountEmail">Loading...</span></p>
+            <p><strong>Phone:</strong> <span id="accountPhone">Loading...</span></p>
+            <p><strong>Member Since:</strong> <span id="accountMemberSince">Loading...</span></p>
+        </div>
+        
+        <div class="password-section">
+            <button class="toggle-password-form" id="showChangePasswordBtn">Change Password</button>
+            <div id="changePasswordForm" style="display: none; margin-top: 16px;">
+                <div class="modal-field">
+                    <label>Current Password</label>
+                    <input type="password" id="currentPassword" placeholder="Enter current password">
+                </div>
+                <div class="modal-field">
+                    <label>New Password</label>
+                    <input type="password" id="newPassword" placeholder="Enter new password (min 6 characters)">
+                </div>
+                <div class="modal-field">
+                    <label>Confirm New Password</label>
+                    <input type="password" id="confirmNewPassword" placeholder="Confirm new password">
+                </div>
+                <button class="modal-btn" id="savePasswordBtn">Save New Password</button>
+            </div>
+        </div>
+        
+        <button class="modal-btn" id="closeAccountModalBtn" style="margin-top: 16px;">Close</button>
+    </div>
+</div>
+
+<div id="profileModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>My Profile</h3>
+            <button class="modal-close" id="closeProfileModal">&times;</button>
+        </div>
+        <form id="profileForm">
+            <div class="modal-field">
+                <label>First Name</label>
+                <input type="text" id="profileFirstName" placeholder="Enter your first name">
+            </div>
+            <div class="modal-field">
+                <label>Last Name</label>
+                <input type="text" id="profileLastName" placeholder="Enter your last name">
+            </div>
+            <div class="modal-field">
+                <label>Phone Number</label>
+                <input type="tel" id="profilePhone" placeholder="Enter your phone number">
+            </div>
+            <div class="modal-field">
+                <label>Delivery Address</label>
+                <textarea id="profileAddress" placeholder="Enter your delivery address"></textarea>
+            </div>
+            <button type="submit" class="modal-btn">Save Changes</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    let cart = [];
+    let currentUser = null;
+    let selectedPayment = "Cash";
+    let currentOrderTotal = 0;
+    let paymentData = {};
+    let deliveryMethod = "pickup";
+    let deliveryFee = 0;
+    let deliveryAddress = "";
+
+    function showToast(msg) {
+        const toast = document.getElementById('toastMsg');
+        toast.textContent = msg;
+        toast.style.opacity = "1";
+        setTimeout(() => { toast.style.opacity = "0"; }, 1800);
+    }
+
+    function formatPHP(amount) {
+        return '₱' + amount.toFixed(2);
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    function checkLogin() {
+        const loggedIn = sessionStorage.getItem('doughkyoLoggedIn');
+        if (!loggedIn) {
+            window.location.href = 'login.html';
+            return false;
+        }
+        return true;
+    }
+
+    function loadUserData() {
+        const loggedIn = sessionStorage.getItem('doughkyoLoggedIn');
+        if (loggedIn) {
+            try {
+                currentUser = JSON.parse(loggedIn);
+                const userNameSpan = document.getElementById('userNameDisplay');
+                
+                if (currentUser.firstName) {
+                    userNameSpan.textContent = currentUser.firstName;
+                } else if (currentUser.name) {
+                    userNameSpan.textContent = currentUser.name;
+                } else {
+                    userNameSpan.textContent = currentUser.fullName || currentUser.email;
+                }
+                
+                const savedAddress = localStorage.getItem('doughkyoAddress');
+                if (savedAddress) {
+                    deliveryAddress = savedAddress;
+                }
+                return true;
+            } catch(e) {
+                window.location.href = 'login.html';
+                return false;
+            }
+        } else {
+            window.location.href = 'login.html';
+            return false;
+        }
+    }
+
+    function updateCartDisplay() {
+        const stored = sessionStorage.getItem('doughkyoCart');
+        if (stored) {
+            try {
+                cart = JSON.parse(stored);
+            } catch(e) {
+                cart = [];
+            }
+        }
+        if (!cart || !Array.isArray(cart)) {
+            cart = [];
+        }
+        const totalItems = cart.reduce((acc, item) => acc + (item.quantity || 0), 0);
+        const cartCount = document.getElementById('cart-count');
+        if (cartCount) cartCount.innerText = totalItems;
+        sessionStorage.setItem('doughkyoCart', JSON.stringify(cart));
+    }
+
+    function updateQuantity(itemId, delta) {
+        const index = cart.findIndex(i => i.id === itemId);
+        if (index === -1) return;
+        const newQty = cart[index].quantity + delta;
+        if (newQty <= 0) {
+            cart.splice(index, 1);
+        } else {
+            cart[index].quantity = newQty;
+        }
+        sessionStorage.setItem('doughkyoCart', JSON.stringify(cart));
+        updateCartDisplay();
+        renderCartPage();
+    }
+
+    function removeItem(itemId) {
+        const index = cart.findIndex(i => i.id === itemId);
+        if (index !== -1) {
+            cart.splice(index, 1);
+            sessionStorage.setItem('doughkyoCart', JSON.stringify(cart));
+            updateCartDisplay();
+            renderCartPage();
+            showToast(`Removed from cart`);
+        }
+    }
+
+    function generateReceiptText(total) {
+        const date = new Date().toLocaleString();
+        let itemsList = '';
+        cart.forEach(item => {
+            itemsList += `${item.name} x ${item.quantity} = ${formatPHP(item.price * item.quantity)}\n`;
+        });
+        let deliveryInfo = deliveryMethod === 'pickup' ? 'Pickup at store' : `Delivery to: ${deliveryAddress}`;
+        let paymentInfo = `Payment: ${selectedPayment}`;
+        if (selectedPayment === 'GCash' && paymentData.gcashNumber) {
+            paymentInfo += `\nGCash Number: ${paymentData.gcashNumber}`;
+        } else if (selectedPayment === 'Credit Card' && paymentData.cardNumber) {
+            paymentInfo += `\nCard: ****${paymentData.cardNumber.slice(-4)}\nExpiry: ${paymentData.expiryMonth}/${paymentData.expiryYear}`;
+        }
+        let feeText = deliveryMethod === 'delivery' ? `\nDelivery Fee: ${formatPHP(50)}` : '';
+        return `DoughKyo Bakery\nDoughbest Bread Ever\n${date}\n\n${itemsList}\nSubtotal: ${formatPHP(total - deliveryFee)}${feeText}\nTotal: ${formatPHP(total)}\n${deliveryInfo}\n${paymentInfo}\n\nThank you!`;
+    }
+
+    function generateReceiptHTML(total) {
+        const date = new Date().toLocaleString();
+        let itemsList = '';
+        cart.forEach(item => {
+            itemsList += `<div>${escapeHtml(item.name)} x ${item.quantity} = ${formatPHP(item.price * item.quantity)}</div>`;
+        });
+        let deliveryInfo = deliveryMethod === 'pickup' ? 'Pickup at store' : `Delivery to: ${escapeHtml(deliveryAddress)}`;
+        let paymentInfo = `Payment: ${escapeHtml(selectedPayment)}`;
+        if (selectedPayment === 'GCash' && paymentData.gcashNumber) {
+            paymentInfo += `<br>GCash Number: ${escapeHtml(paymentData.gcashNumber)}`;
+        } else if (selectedPayment === 'Credit Card' && paymentData.cardNumber) {
+            paymentInfo += `<br>Card: ****${escapeHtml(paymentData.cardNumber.slice(-4))}<br>Expiry: ${escapeHtml(paymentData.expiryMonth)}/${escapeHtml(paymentData.expiryYear)}`;
+        }
+        let feeText = deliveryMethod === 'delivery' ? `<br>Delivery Fee: ${formatPHP(50)}` : '';
+        return `
+            <div style="font-family: monospace; white-space: normal; word-wrap: break-word;">
+                <strong>DoughKyo Bakery</strong><br>
+                Doughbest Bread Ever<br>
+                ${escapeHtml(date)}<br>
+                <br>
+                ${itemsList}<br>
+                <strong>Subtotal: ${formatPHP(total - deliveryFee)}</strong>${feeText}<br>
+                <strong>Total: ${formatPHP(total)}</strong><br>
+                ${deliveryInfo}<br>
+                ${paymentInfo}<br>
+                <br>
+                Thank you!
+            </div>
+        `;
+    }
+
+    function validatePaymentForm() {
+        if (selectedPayment === 'GCash') {
+            const gcashNum = document.getElementById('gcashNumber');
+            if (!gcashNum || !gcashNum.value.trim()) {
+                showToast("Please enter your GCash number");
+                return false;
+            }
+            const phoneRegex = /^(\+63|0)[0-9]{10,11}$/;
+            if (!phoneRegex.test(gcashNum.value.trim()) && !/^[0-9]{11}$/.test(gcashNum.value.trim())) {
+                showToast("Please enter a valid mobile number (e.g., 09123456789 or +639123456789)");
+                return false;
+            }
+            paymentData.gcashNumber = gcashNum.value.trim();
+        } else if (selectedPayment === 'Credit Card') {
+            const cardNum = document.getElementById('cardNumber');
+            const cardName = document.getElementById('cardName');
+            const expiryMonth = document.getElementById('expiryMonth');
+            const expiryYear = document.getElementById('expiryYear');
+            const cvv = document.getElementById('cvv');
+            
+            if (!cardNum || !cardNum.value.trim()) {
+                showToast("Please enter your card number");
+                return false;
+            }
+            const cardNumClean = cardNum.value.trim().replace(/\s/g, '');
+            if (!/^[0-9]{15,16}$/.test(cardNumClean)) {
+                showToast("Please enter a valid 15-16 digit card number");
+                return false;
+            }
+            if (!cardName || !cardName.value.trim()) {
+                showToast("Please enter the cardholder name");
+                return false;
+            }
+            if (!expiryMonth || !expiryMonth.value.trim()) {
+                showToast("Please enter expiry month");
+                return false;
+            }
+            if (!expiryYear || !expiryYear.value.trim()) {
+                showToast("Please enter expiry year");
+                return false;
+            }
+            if (!cvv || !cvv.value.trim()) {
+                showToast("Please enter CVV");
+                return false;
+            }
+            if (!/^[0-9]{3,4}$/.test(cvv.value.trim())) {
+                showToast("Please enter a valid 3-4 digit CVV");
+                return false;
+            }
+            paymentData.cardNumber = cardNumClean;
+            paymentData.cardName = cardName.value.trim();
+            paymentData.expiryMonth = expiryMonth.value.trim();
+            paymentData.expiryYear = expiryYear.value.trim();
+            paymentData.cvv = cvv.value.trim();
+        }
+        
+        if (deliveryMethod === 'delivery') {
+            const addressInput = document.getElementById('deliveryAddressInput');
+            if (!addressInput || !addressInput.value.trim()) {
+                showToast("Please enter your delivery address");
+                return false;
+            }
+            deliveryAddress = addressInput.value.trim();
+        }
+        
+        return true;
+    }
+
+    function renderPaymentForm() {
+        const formContainer = document.getElementById('paymentDetailsForm');
+        if (!formContainer) return;
+        
+        if (selectedPayment === 'GCash') {
+            formContainer.innerHTML = `
+                <div class="form-group">
+                    <label>GCash Mobile Number</label>
+                    <input type="tel" id="gcashNumber" placeholder="09123456789 or +639123456789" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>Reference Number (Optional)</label>
+                    <input type="text" id="gcashRef" placeholder="Enter reference number if available">
+                </div>
+            `;
+        } else if (selectedPayment === 'Credit Card') {
+            formContainer.innerHTML = `
+                <div class="form-group">
+                    <label>Card Number</label>
+                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>Cardholder Name</label>
+                    <input type="text" id="cardName" placeholder="As shown on card" autocomplete="off">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Expiry Month</label>
+                        <input type="text" id="expiryMonth" placeholder="MM" maxlength="2" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label>Expiry Year</label>
+                        <input type="text" id="expiryYear" placeholder="YY" maxlength="2" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label>CVV</label>
+                        <input type="password" id="cvv" placeholder="123" maxlength="4" autocomplete="off">
+                    </div>
+                </div>
+            `;
+            
+            const cardNumInput = document.getElementById('cardNumber');
+            if (cardNumInput) {
+                cardNumInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\s/g, '');
+                    if (value.length > 16) value = value.slice(0, 16);
+                    let formatted = '';
+                    for (let i = 0; i < value.length; i++) {
+                        if (i > 0 && i % 4 === 0) formatted += ' ';
+                        formatted += value[i];
+                    }
+                    e.target.value = formatted;
+                });
+            }
+            
+            const monthInput = document.getElementById('expiryMonth');
+            if (monthInput) {
+                monthInput.addEventListener('input', function(e) {
+                    let val = e.target.value.replace(/[^0-9]/g, '');
+                    if (val.length > 2) val = val.slice(0, 2);
+                    if (parseInt(val) > 12) val = '12';
+                    e.target.value = val;
+                });
+            }
+            
+            const yearInput = document.getElementById('expiryYear');
+            if (yearInput) {
+                yearInput.addEventListener('input', function(e) {
+                    let val = e.target.value.replace(/[^0-9]/g, '');
+                    if (val.length > 2) val = val.slice(0, 2);
+                    e.target.value = val;
+                });
+            }
+            
+            const cvvInput = document.getElementById('cvv');
+            if (cvvInput) {
+                cvvInput.addEventListener('input', function(e) {
+                    let val = e.target.value.replace(/[^0-9]/g, '');
+                    if (val.length > 4) val = val.slice(0, 4);
+                    e.target.value = val;
+                });
+            }
+        } else {
+            formContainer.innerHTML = `<div style="text-align: center; padding: 20px; color: #6f5843;">Pay with cash when you pick up your order at the bakery.</div>`;
+        }
+        
+        if (deliveryMethod === 'delivery') {
+            const addressHtml = document.createElement('div');
+            addressHtml.className = 'payment-form';
+            addressHtml.style.marginTop = '10px';
+            addressHtml.innerHTML = `
+                <div class="form-group">
+                    <label>Delivery Address</label>
+                    <textarea id="deliveryAddressInput" rows="3" placeholder="Enter your complete delivery address">${escapeHtml(deliveryAddress)}</textarea>
+                </div>
+            `;
+            formContainer.appendChild(addressHtml);
+        }
+    }
+
+    function showPaymentModal() {
+        if (cart.length === 0) {
+            showToast("Cart is empty");
+            return;
+        }
+        
+        let subtotal = cart.reduce((acc, i) => acc + (i.price * i.quantity), 0);
+        deliveryFee = deliveryMethod === 'delivery' ? 50 : 0;
+        currentOrderTotal = subtotal + deliveryFee;
+        
+        const receiptPreview = document.getElementById('receiptPreview');
+        if (receiptPreview) {
+            receiptPreview.innerHTML = generateReceiptHTML(currentOrderTotal);
+        }
+        renderPaymentForm();
+        const paymentModal = document.getElementById('paymentModal');
+        if (paymentModal) paymentModal.classList.add('active');
+
+        document.querySelectorAll('.pay-method').forEach(el => {
+            el.classList.remove('selected');
+            if (el.getAttribute('data-method') === selectedPayment) el.classList.add('selected');
+            el.onclick = () => {
+                document.querySelectorAll('.pay-method').forEach(m => m.classList.remove('selected'));
+                el.classList.add('selected');
+                selectedPayment = el.getAttribute('data-method');
+                renderPaymentForm();
+                const preview = document.getElementById('receiptPreview');
+                if (preview) {
+                    preview.innerHTML = generateReceiptHTML(currentOrderTotal);
+                }
+            };
+        });
+    }
+
+    function closePaymentModal() {
+        const paymentModal = document.getElementById('paymentModal');
+        if (paymentModal) paymentModal.classList.remove('active');
+        paymentData = {};
+    }
+
+    function finalizeOrder() {
+        if (cart.length === 0) return;
+        
+        if (!validatePaymentForm()) {
+            return;
+        }
+        
+        const orderId = Math.floor(Date.now() / 1000);
+        const date = new Date().toLocaleString();
+        let subtotal = cart.reduce((acc, i) => acc + (i.price * i.quantity), 0);
+        let total = subtotal + deliveryFee;
+        const orderItems = cart.map(item => ({
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price
+        }));
+        
+        let userEmail = currentUser ? currentUser.email : null;
+        let userName = currentUser ? (currentUser.firstName + ' ' + currentUser.lastName) : null;
+        
+        if (!userEmail) {
+            showToast("Please login to place an order");
+            window.location.href = 'login.html';
+            return;
+        }
+        
+        const newOrder = {
+            orderId: orderId,
+            userEmail: userEmail,
+            userName: userName,
+            date: date,
+            subtotal: subtotal,
+            deliveryFee: deliveryFee,
+            total: total,
+            status: 'Confirmed',
+            deliveryMethod: deliveryMethod,
+            deliveryAddress: deliveryMethod === 'delivery' ? deliveryAddress : 'Pickup',
+            items: orderItems,
+            paymentMethod: selectedPayment
+        };
+        
+        let existingOrders = [];
+        const storedOrders = localStorage.getItem('doughkyoOrders');
+        if (storedOrders) {
+            try {
+                existingOrders = JSON.parse(storedOrders);
+            } catch(e) {}
+        }
+        existingOrders.push(newOrder);
+        localStorage.setItem('doughkyoOrders', JSON.stringify(existingOrders));
+        
+        const receiptText = generateReceiptText(total);
+        alert(`Order Confirmed!\n\n${receiptText}\n\nYour order is being prepared. We'll notify you once ready.`);
+        
+        cart = [];
+        sessionStorage.setItem('doughkyoCart', JSON.stringify(cart));
+        updateCartDisplay();
+        closePaymentModal();
+        showToast("Order placed! Thank you.");
+        renderCartPage();
+        paymentData = {};
+    }
+
+    function renderCartPage() {
+        const cartContainer = document.getElementById('cartPageContainer');
+        if (!cartContainer) return;
+
+        if (!cart || cart.length === 0) {
+            cartContainer.innerHTML = `<div class="empty-cart"><h3>Your cart is empty</h3><p>Add some delicious treats from our menu!</p><a href="menu.html" class="btn-primary" style="display: inline-block; margin-top: 20px;">Browse Menu</a></div>`;
+            return;
+        }
+
+        let itemsHtml = '';
+        let subtotal = 0;
+        cart.forEach(item => {
+            const itemTotal = item.price * item.quantity;
+            subtotal += itemTotal;
+            itemsHtml += `
+                <div class="cart-item-row">
+                    <div class="cart-item-details">
+                        <h4>${escapeHtml(item.name)}</h4>
+                        <div class="cart-item-price">${formatPHP(item.price)} each</div>
+                    </div>
+                    <div class="cart-item-actions">
+                        <button class="cart-qty-btn" data-id="${item.id}" data-delta="-1">-</button>
+                        <span style="min-width: 30px; text-align: center;">${item.quantity}</span>
+                        <button class="cart-qty-btn" data-id="${item.id}" data-delta="1">+</button>
+                        <button class="cart-remove" data-id="${item.id}" data-remove="true">🗑️</button>
+                        <span style="font-weight: 600; min-width: 70px; text-align: right;">${formatPHP(itemTotal)}</span>
+                    </div>
+                </div>
+            `;
+        });
+
+        let total = deliveryMethod === 'delivery' ? subtotal + 50 : subtotal;
+        let deliveryFeeDisplay = deliveryMethod === 'delivery' ? formatPHP(50) : 'Free';
+        
+        cartContainer.innerHTML = `
+            <div class="cart-grid">
+                <div class="cart-items">
+                    ${itemsHtml}
+                </div>
+                <div class="cart-summary">
+                    <h3>Order Summary</h3>
+                    <div class="summary-line">
+                        <span>Subtotal</span>
+                        <span>${formatPHP(subtotal)}</span>
+                    </div>
+                    <div class="summary-line">
+                        <span>Delivery Fee</span>
+                        <span>${deliveryFeeDisplay}</span>
+                    </div>
+                    <div class="summary-total">
+                        <span>Total</span>
+                        <span>${formatPHP(total)}</span>
+                    </div>
+                    
+                    <div class="delivery-option">
+                        <h4>Delivery Option</h4>
+                        <div class="option-buttons">
+                            <button class="option-btn ${deliveryMethod === 'pickup' ? 'active' : ''}" id="pickupBtn">Pickup</button>
+                            <button class="option-btn ${deliveryMethod === 'delivery' ? 'active' : ''}" id="deliveryBtn">Delivery (+₱50)</button>
+                        </div>
+                        <div id="addressField" class="address-field" style="display: ${deliveryMethod === 'delivery' ? 'block' : 'none'};">
+                            <label>Delivery Address</label>
+                            <textarea id="deliveryAddressText" rows="2" placeholder="Enter your complete delivery address">${escapeHtml(deliveryAddress)}</textarea>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-primary" id="checkoutSummaryBtn" style="width: 100%; margin-top: 24px;">Proceed to Checkout</button>
+                </div>
+            </div>
+        `;
+
+        document.querySelectorAll('.cart-qty-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = parseInt(btn.getAttribute('data-id'));
+                const delta = parseInt(btn.getAttribute('data-delta'));
+                updateQuantity(id, delta);
+            });
+        });
+        
+        document.querySelectorAll('.cart-remove').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = parseInt(btn.getAttribute('data-id'));
+                removeItem(id);
+            });
+        });
+        
+        const pickupBtn = document.getElementById('pickupBtn');
+        const deliveryBtn = document.getElementById('deliveryBtn');
+        const addressField = document.getElementById('addressField');
+        
+        if (pickupBtn) {
+            pickupBtn.addEventListener('click', () => {
+                deliveryMethod = 'pickup';
+                deliveryFee = 0;
+                pickupBtn.classList.add('active');
+                deliveryBtn.classList.remove('active');
+                addressField.style.display = 'none';
+                renderCartPage();
+            });
+        }
+        
+        if (deliveryBtn) {
+            deliveryBtn.addEventListener('click', () => {
+                deliveryMethod = 'delivery';
+                deliveryFee = 50;
+                deliveryBtn.classList.add('active');
+                pickupBtn.classList.remove('active');
+                addressField.style.display = 'block';
+                renderCartPage();
+            });
+        }
+        
+        const addressTextarea = document.getElementById('deliveryAddressText');
+        if (addressTextarea) {
+            addressTextarea.addEventListener('input', (e) => {
+                deliveryAddress = e.target.value;
+            });
+        }
+        
+        const checkoutBtn = document.getElementById('checkoutSummaryBtn');
+        if (checkoutBtn) {
+            checkoutBtn.addEventListener('click', showPaymentModal);
+        }
+    }
+
+    function loadCartFromStorage() {
+        const stored = sessionStorage.getItem('doughkyoCart');
+        if (stored) {
+            try {
+                const parsed = JSON.parse(stored);
+                if (Array.isArray(parsed)) {
+                    cart = parsed.filter(item => item.id && item.quantity > 0);
+                } else {
+                    cart = [];
+                }
+            } catch(e) {
+                cart = [];
+            }
+        } else {
+            cart = [];
+        }
+        updateCartDisplay();
+    }
+
+    function toggleDropdown() {
+        const dropdown = document.getElementById('dropdownMenu');
+        const arrow = document.getElementById('dropdownArrow');
+        dropdown.classList.toggle('active');
+        if (dropdown.classList.contains('active')) {
+            arrow.style.transform = 'rotate(180deg)';
+        } else {
+            arrow.style.transform = 'rotate(0deg)';
+        }
+    }
+    
+    function closeDropdown() {
+        const dropdown = document.getElementById('dropdownMenu');
+        const arrow = document.getElementById('dropdownArrow');
+        dropdown.classList.remove('active');
+        arrow.style.transform = 'rotate(0deg)';
+    }
+    
+    function logout() {
+    sessionStorage.removeItem('doughkyoLoggedIn');
+    showToast('Logged out successfully!');
+    setTimeout(() => {
+        window.location.href = 'login.html';
+    }, 1000);
+}
+    
+    function openAccountModal() {
+        if (!currentUser) {
+            window.location.href = 'login.html';
+            return;
+        }
+        
+        document.getElementById('accountName').textContent = (currentUser.firstName || '') + ' ' + (currentUser.lastName || '');
+        document.getElementById('accountEmail').textContent = currentUser.email;
+        document.getElementById('accountPhone').textContent = currentUser.phone || 'Not provided';
+        
+        let memberSince = localStorage.getItem('doughkyoMemberSince');
+        if (!memberSince) {
+            memberSince = new Date().toLocaleDateString();
+            localStorage.setItem('doughkyoMemberSince', memberSince);
+        }
+        document.getElementById('accountMemberSince').textContent = memberSince;
+        
+        document.getElementById('changePasswordForm').style.display = 'none';
+        document.getElementById('currentPassword').value = '';
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmNewPassword').value = '';
+        
+        document.getElementById('accountModal').classList.add('active');
+    }
+    
+    function closeAccountModal() {
+        document.getElementById('accountModal').classList.remove('active');
+    }
+    
+    function openProfileModal() {
+        if (!currentUser) {
+            window.location.href = 'login.html';
+            return;
+        }
+        
+        document.getElementById('profileFirstName').value = currentUser.firstName || '';
+        document.getElementById('profileLastName').value = currentUser.lastName || '';
+        document.getElementById('profilePhone').value = currentUser.phone || '';
+        
+        const savedAddress = localStorage.getItem('doughkyoAddress');
+        if (savedAddress) {
+            document.getElementById('profileAddress').value = savedAddress;
+            deliveryAddress = savedAddress;
+        } else {
+            document.getElementById('profileAddress').value = '';
+        }
+        
+        document.getElementById('profileModal').classList.add('active');
+    }
+    
+    function closeProfileModal() {
+        document.getElementById('profileModal').classList.remove('active');
+    }
+    
+    function saveProfileChanges(e) {
+        e.preventDefault();
+        
+        if (!currentUser) return;
+        
+        const newFirstName = document.getElementById('profileFirstName').value.trim();
+        const newLastName = document.getElementById('profileLastName').value.trim();
+        const newPhone = document.getElementById('profilePhone').value.trim();
+        const newAddress = document.getElementById('profileAddress').value.trim();
+        
+        if (newFirstName) currentUser.firstName = newFirstName;
+        if (newLastName) currentUser.lastName = newLastName;
+        if (newPhone) currentUser.phone = newPhone;
+        
+        sessionStorage.setItem('doughkyoLoggedIn', JSON.stringify(currentUser));
+        
+        let users = [];
+        const storedUsers = localStorage.getItem('doughkyoUsers');
+        if (storedUsers) {
+            try {
+                users = JSON.parse(storedUsers);
+                const userIndex = users.findIndex(u => u.email === currentUser.email);
+                if (userIndex !== -1) {
+                    users[userIndex].firstName = currentUser.firstName;
+                    users[userIndex].lastName = currentUser.lastName;
+                    users[userIndex].phone = currentUser.phone;
+                    localStorage.setItem('doughkyoUsers', JSON.stringify(users));
+                }
+            } catch(e) {}
+        }
+        
+        if (newAddress) {
+            localStorage.setItem('doughkyoAddress', newAddress);
+            deliveryAddress = newAddress;
+        }
+        
+        showToast('Profile updated successfully!');
+        closeProfileModal();
+    }
+    
+    function changePassword() {
+        const currentPwd = document.getElementById('currentPassword').value.trim();
+        const newPwd = document.getElementById('newPassword').value.trim();
+        const confirmPwd = document.getElementById('confirmNewPassword').value.trim();
+        
+        if (!currentPwd || !newPwd || !confirmPwd) {
+            showToast('Please fill in all password fields');
+            return;
+        }
+        
+        if (currentPwd !== currentUser.password) {
+            showToast('Current password is incorrect');
+            return;
+        }
+        
+        if (newPwd.length < 6) {
+            showToast('New password must be at least 6 characters');
+            return;
+        }
+        
+        if (newPwd !== confirmPwd) {
+            showToast('New passwords do not match');
+            return;
+        }
+        
+        currentUser.password = newPwd;
+        sessionStorage.setItem('doughkyoLoggedIn', JSON.stringify(currentUser));
+        
+        let users = [];
+        const storedUsers = localStorage.getItem('doughkyoUsers');
+        if (storedUsers) {
+            try {
+                users = JSON.parse(storedUsers);
+                const userIndex = users.findIndex(u => u.email === currentUser.email);
+                if (userIndex !== -1) {
+                    users[userIndex].password = newPwd;
+                    localStorage.setItem('doughkyoUsers', JSON.stringify(users));
+                }
+            } catch(e) {}
+        }
+        
+        showToast('Password changed successfully!');
+        document.getElementById('changePasswordForm').style.display = 'none';
+        document.getElementById('currentPassword').value = '';
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmNewPassword').value = '';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        if (!checkLogin()) return;
+        
+        const isLoggedIn = loadUserData();
+        if (!isLoggedIn) return;
+        
+        loadCartFromStorage();
+        renderCartPage();
+        
+        const userProfileBtn = document.getElementById('userProfileBtn');
+        if (userProfileBtn) {
+            userProfileBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleDropdown();
+            });
+        }
+        
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('dropdownMenu');
+            const userDropdown = document.querySelector('.user-dropdown');
+            if (dropdown && userDropdown && !userDropdown.contains(e.target)) {
+                closeDropdown();
+            }
+        });
+        
+        const logoutBtn = document.getElementById('dropdownLogout');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                logout();
+                closeDropdown();
+            });
+        }
+        
+        const profileItem = document.getElementById('dropdownProfile');
+        if (profileItem) {
+            profileItem.addEventListener('click', function(e) {
+                e.preventDefault();
+                openProfileModal();
+                closeDropdown();
+            });
+        }
+        
+        const loginItem = document.getElementById('dropdownLogin');
+        if (loginItem) {
+            loginItem.addEventListener('click', function(e) {
+                e.preventDefault();
+                openAccountModal();
+                closeDropdown();
+            });
+        }
+        
+        const confirmBtn = document.getElementById('confirmPayment');
+        const cancelBtn = document.getElementById('cancelPayment');
+        if (confirmBtn) confirmBtn.addEventListener('click', finalizeOrder);
+        if (cancelBtn) cancelBtn.addEventListener('click', closePaymentModal);
+        
+        const closeAccountBtn1 = document.getElementById('closeAccountModal');
+        const closeAccountBtn2 = document.getElementById('closeAccountModalBtn');
+        if (closeAccountBtn1) closeAccountBtn1.addEventListener('click', closeAccountModal);
+        if (closeAccountBtn2) closeAccountBtn2.addEventListener('click', closeAccountModal);
+        
+        const closeProfileBtn = document.getElementById('closeProfileModal');
+        if (closeProfileBtn) closeProfileBtn.addEventListener('click', closeProfileModal);
+        
+        const profileForm = document.getElementById('profileForm');
+        if (profileForm) profileForm.addEventListener('submit', saveProfileChanges);
+        
+        const showChangePasswordBtn = document.getElementById('showChangePasswordBtn');
+        if (showChangePasswordBtn) {
+            showChangePasswordBtn.addEventListener('click', function() {
+                const form = document.getElementById('changePasswordForm');
+                if (form.style.display === 'none') {
+                    form.style.display = 'block';
+                    showChangePasswordBtn.textContent = 'Cancel';
+                } else {
+                    form.style.display = 'none';
+                    showChangePasswordBtn.textContent = 'Change Password';
+                    document.getElementById('currentPassword').value = '';
+                    document.getElementById('newPassword').value = '';
+                    document.getElementById('confirmNewPassword').value = '';
+                }
+            });
+        }
+        
+        const savePasswordBtn = document.getElementById('savePasswordBtn');
+        if (savePasswordBtn) {
+            savePasswordBtn.addEventListener('click', changePassword);
+        }
+        
+        window.addEventListener('click', function(e) {
+            const accountModal = document.getElementById('accountModal');
+            const profileModal = document.getElementById('profileModal');
+            const paymentModal = document.getElementById('paymentModal');
+            if (e.target === accountModal) closeAccountModal();
+            if (e.target === profileModal) closeProfileModal();
+            if (e.target === paymentModal) closePaymentModal();
+        });
+    });
+</script>
+</body>
+</html>

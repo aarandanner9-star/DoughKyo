@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>DoughKyo | Menu – Doughbest Bread Ever</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fef7e8;
+            color: #2e241f;
+            scroll-behavior: smooth;
+            line-height: 1.4;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f3e9dc; }
+        ::-webkit-scrollbar-thumb { background: #c07a4b; border-radius: 12px; }
+        h1, h2, h3, .logo-text, .nav-links a { font-family: 'Playfair Display', serif; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        header {
+            background: #fffaf3;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.02);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(2px);
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+            flex-wrap: wrap;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            text-decoration: none;
+        }
+        .logo-icon { width: 70px; height: 70px; object-fit: contain; }
+        .logo-text { font-size: 2.2rem; font-weight: 700; color: #b45f2b; line-height: 1.1; }
+        .logo-slogan { font-size: 0.85rem; color: #a0653e; margin-top: 4px; font-weight: 500; }
+        .nav-links { display: flex; gap: 32px; list-style: none; }
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #4a3527;
+            transition: 0.2s;
+            font-size: 1.05rem;
+        }
+        .nav-links a:hover, .nav-links a.active { color: #c17b42; border-bottom: 2px solid #e2b181; padding-bottom: 4px; }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .cart-icon {
+            background: #f7e9db;
+            padding: 8px 14px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #2e241f;
+            font-weight: 600;
+        }
+        .cart-icon:hover { background: #eedbcb; transform: scale(1.02); }
+        #cart-count { background: #b45f2b; color: white; border-radius: 30px; padding: 2px 8px; font-size: 0.8rem; font-weight: bold; }
+
+        .user-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            background: #f7e9db;
+            padding: 6px 16px 6px 12px;
+            border-radius: 40px;
+            transition: 0.2s;
+        }
+        .user-profile:hover {
+            background: #eedbcb;
+        }
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+        .user-name {
+            font-weight: 600;
+            color: #4a3527;
+            font-size: 0.9rem;
+        }
+        .dropdown-arrow {
+            font-size: 0.7rem;
+            color: #a0653e;
+            transition: transform 0.2s;
+        }
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 12px;
+            background: white;
+            min-width: 200px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: 0.2s;
+            z-index: 200;
+        }
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .dropdown-item {
+            display: block;
+            padding: 14px 20px;
+            color: #4a3527;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .dropdown-item:hover {
+            background: #fef5ea;
+            color: #b45f2b;
+        }
+        .logout-dropdown {
+            color: #c26e38;
+        }
+        .logout-dropdown:hover {
+            background: #fae1c6;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.2s;
+        }
+        .modal.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-content {
+            background: white;
+            max-width: 500px;
+            width: 90%;
+            border-radius: 32px;
+            padding: 32px;
+            transform: scale(0.9);
+            transition: transform 0.3s;
+        }
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #f3e2d0;
+        }
+        .modal-header h3 {
+            font-size: 1.5rem;
+            color: #b45f2b;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #a3856b;
+        }
+        .modal-close:hover {
+            color: #b45f2b;
+        }
+        .modal-field {
+            margin-bottom: 20px;
+        }
+        .modal-field label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4a3527;
+        }
+        .modal-field input, .modal-field textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e2cfba;
+            border-radius: 24px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            background: #fefefd;
+        }
+        .modal-field input:focus, .modal-field textarea:focus {
+            outline: none;
+            border-color: #b45f2b;
+        }
+        .modal-field textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .modal-info {
+            background: #fef5ea;
+            padding: 16px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+        .modal-info p {
+            margin: 8px 0;
+            color: #4a3527;
+        }
+        .modal-info strong {
+            color: #b45f2b;
+        }
+        .modal-btn {
+            width: 100%;
+            background: #b45f2b;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .modal-btn:hover {
+            background: #9b4e1f;
+            transform: translateY(-2px);
+        }
+        .password-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #efdecb;
+        }
+        .toggle-password-form {
+            background: none;
+            border: none;
+            color: #b45f2b;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            text-decoration: underline;
+        }
+
+        .hero-image-bg {
+            background: url('images/bg2.jpg') center/cover no-repeat;
+            height: 320px;
+            border-radius: 48px;
+            margin: 30px 0 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 30px -10px rgba(0,0,0,0.15);
+        }
+        .hero-overlay {
+            background: rgba(0,0,0,0.4);
+            width: 100%;
+            height: 100%;
+            border-radius: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-overlay h1 {
+            color: white;
+            font-size: 3.5rem;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+            font-family: 'Playfair Display', serif;
+        }
+        .hero-overlay p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.2rem;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .section-title { text-align: center; font-size: 2.2rem; margin: 50px 0 12px; color: #4f3322; font-weight: 600; }
+        .section-sub { text-align: center; color: #9b6f4b; margin-bottom: 48px; }
+        .bread-category { margin-bottom: 55px; }
+        .category-heading {
+            font-size: 1.8rem;
+            font-family: 'Playfair Display', serif;
+            color: #a45d2e;
+            border-left: 6px solid #dba570;
+            padding-left: 18px;
+            margin-bottom: 28px;
+            margin-top: 10px;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 32px;
+            margin-bottom: 20px;
+        }
+        .bakery-card {
+            background: white;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 12px 24px -12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid #f3e2d0;
+            cursor: pointer;
+        }
+        .bakery-card:hover { transform: translateY(-8px); box-shadow: 0 24px 32px -16px rgba(107,70,33,0.2); }
+        .card-img { 
+            height: 200px; 
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #fef5ea;
+            width: 100%;
+        }
+        .card-info { padding: 22px 20px 24px; }
+        .card-title { font-size: 1.4rem; font-weight: 600; margin-bottom: 8px; }
+        .card-desc { color: #6f5843; font-size: 0.9rem; margin: 8px 0 16px; line-height: 1.4; }
+        .price-row { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+        .price { font-weight: 800; font-size: 1.5rem; color: #c26e38; }
+        .add-btn {
+            background: #f3e1cf;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 10;
+        }
+        .add-btn:hover { background: #e6ceb5; transform: scale(0.96); }
+        footer {
+            background: #f2e5d8;
+            margin-top: 70px;
+            padding: 36px 0;
+            text-align: center;
+            color: #6c4f37;
+        }
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2e241fe6;
+            color: #ffefdf;
+            padding: 10px 18px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            z-index: 1100;
+            pointer-events: none;
+            opacity: 0;
+            transition: 0.2s;
+        }
+        .logo-wrapper { display: flex; flex-direction: column; }
+        
+        .product-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.25s;
+        }
+        .product-modal.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .product-modal-content {
+            background: white;
+            max-width: 500px;
+            width: 90%;
+            border-radius: 40px;
+            padding: 32px;
+            transform: scale(0.9);
+            transition: transform 0.3s;
+            max-height: 85vh;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .product-modal-content::-webkit-scrollbar {
+            display: none;
+        }
+        .product-modal.active .product-modal-content {
+            transform: scale(1);
+        }
+        .product-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f3e2d0;
+            padding-bottom: 16px;
+        }
+        .product-modal-header h3 {
+            font-size: 1.6rem;
+            color: #b45f2b;
+        }
+        .close-product-modal {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #a3856b;
+        }
+        .product-img-preview {
+            width: 100%;
+            height: 250px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-radius: 24px;
+            margin-bottom: 20px;
+            background-color: #fef5ea;
+        }
+        .product-price-preview {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #c26e38;
+            margin: 15px 0;
+        }
+        .size-selector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            padding: 15px;
+            background: #fef5ea;
+            border-radius: 40px;
+        }
+        .size-btn {
+            background: #f3e1cf;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+        .size-btn:hover {
+            background: #dbbc9b;
+            transform: scale(1.05);
+        }
+        .size-btn.active {
+            background: #b45f2b;
+            color: white;
+        }
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+            padding: 15px;
+            background: #fef5ea;
+            border-radius: 40px;
+        }
+        .quantity-btn {
+            background: #f3e1cf;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 40px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .quantity-btn:hover {
+            background: #dbbc9b;
+            transform: scale(1.05);
+        }
+        .quantity-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #b45f2b;
+            min-width: 50px;
+            text-align: center;
+        }
+        .ingredients-section, .allergens-section {
+            background: #fef5ea;
+            border-radius: 24px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        .ingredients-section h4, .allergens-section h4 {
+            color: #b45f2b;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+        .allergen-tag {
+            display: inline-block;
+            background: #ffe0cc;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin: 4px 6px 4px 0;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #b45f2b;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .modal-btn-custom {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .modal-btn-custom.confirm { background: #b45f2b; color: white; }
+        .modal-btn-custom.confirm:hover { background: #9b4e1f; transform: scale(1.02); }
+        .modal-btn-custom.cancel { background: #e9d9ca; }
+        .modal-btn-custom.cancel:hover { background: #dbbc9b; }
+        
+        @media (max-width: 700px) {
+            .navbar { flex-direction: column; gap: 16px; }
+            .category-heading { font-size: 1.5rem; }
+            .hero-overlay h1 { font-size: 2rem; }
+            .hero-image-bg { height: 200px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <div class="navbar">
+            <a href="home.html" class="logo">
+                <img src="images/logo.png" alt="DoughKyo Logo" class="logo-icon" onerror="this.style.display='none'">
+                <div class="logo-wrapper">
+                    <span class="logo-text">DoughKyo</span>
+                    <span class="logo-slogan">Doughbest Bread Ever</span>
+                </div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="menu.html" class="active">Menu</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="cart.html">Cart</a></li>
+            </ul>
+            <div class="nav-right">
+                <div class="user-dropdown">
+                    <div class="user-profile" id="userProfileBtn">
+                        <img src="images/acclogo.png" alt="Profile" class="user-avatar" onerror="this.src='https://via.placeholder.com/36?text=User'">
+                        <span class="user-name" id="userNameDisplay">Guest</span>
+                        <span class="dropdown-arrow" id="dropdownArrow">▼</span>
+                    </div>
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <a href="orderhistory.html" class="dropdown-item">Order History</a>
+                        <a href="#" class="dropdown-item" id="dropdownLogin">My Account</a>
+                        <a href="#" class="dropdown-item" id="dropdownProfile">My Profile</a>
+                        <a href="#" class="dropdown-item logout-dropdown" id="dropdownLogout">Logout</a>
+                    </div>
+                </div>
+                <a href="cart.html" class="cart-icon">
+                    <span>🛒</span>
+                    <span id="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <div class="hero-image-bg">
+            <div class="hero-overlay">
+                <div style="text-align: center;">
+                    <h1>Fresh Daily Bakes</h1>
+                    <p>Made with love, baked fresh every morning</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container" id="menu">
+        <h2 class="section-title">Our Signature Bakes</h2>
+        <p class="section-sub">Handcrafted daily with premium ingredients</p>
+        <div id="categoriesContainer"></div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>DoughKyo Bakery – SM Mall of Asia (MOA), Pasay City | Mon-Sun 7am - 7pm</p>
+        <p style="margin-top: 12px;">2025 | Doughbest Bread Ever</p>
+    </div>
+</footer>
+
+<div id="toastMsg" class="toast-msg"></div>
+
+<div id="productDetailModal" class="product-modal">
+    <div class="product-modal-content">
+        <div class="product-modal-header">
+            <h3 id="productModalTitle">Product Name</h3>
+            <button class="close-product-modal" id="closeProductModalBtn">&times;</button>
+        </div>
+        <div id="productModalImage" class="product-img-preview"></div>
+        <div id="productModalPrice" class="product-price-preview"></div>
+        <div id="sizeSelectorContainer" class="size-selector" style="display: none;">
+            <button class="size-btn" data-size="small">Small</button>
+            <button class="size-btn" data-size="medium">Medium</button>
+            <button class="size-btn" data-size="large">Large</button>
+        </div>
+        <div class="quantity-selector">
+            <button class="quantity-btn" id="decrementQty">-</button>
+            <span class="quantity-value" id="selectedQuantity">1</span>
+            <button class="quantity-btn" id="incrementQty">+</button>
+        </div>
+        <div class="ingredients-section">
+            <h4>Ingredients</h4>
+            <p id="productModalIngredients">Loading ingredients...</p>
+        </div>
+        <div class="allergens-section">
+            <h4>Allergen Information</h4>
+            <div id="productModalAllergens">Loading allergens...</div>
+        </div>
+        <div class="modal-buttons">
+            <button class="modal-btn-custom confirm" id="addFromModalBtn">Add to Cart</button>
+            <button class="modal-btn-custom cancel" id="closeProductModalFooterBtn">Close</button>
+        </div>
+    </div>
+</div>
+
+<div id="accountModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>My Account</h3>
+            <button class="modal-close" id="closeAccountModal">&times;</button>
+        </div>
+        <div class="modal-info" id="accountInfo">
+            <p><strong>Name:</strong> <span id="accountName">Loading...</span></p>
+            <p><strong>Email:</strong> <span id="accountEmail">Loading...</span></p>
+            <p><strong>Phone:</strong> <span id="accountPhone">Loading...</span></p>
+            <p><strong>Member Since:</strong> <span id="accountMemberSince">Loading...</span></p>
+        </div>
+        
+        <div class="password-section">
+            <button class="toggle-password-form" id="showChangePasswordBtn">Change Password</button>
+            <div id="changePasswordForm" style="display: none; margin-top: 16px;">
+                <div class="modal-field">
+                    <label>Current Password</label>
+                    <input type="password" id="currentPassword" placeholder="Enter current password">
+                </div>
+                <div class="modal-field">
+                    <label>New Password</label>
+                    <input type="password" id="newPassword" placeholder="Enter new password (min 6 characters)">
+                </div>
+                <div class="modal-field">
+                    <label>Confirm New Password</label>
+                    <input type="password" id="confirmNewPassword" placeholder="Confirm new password">
+                </div>
+                <button class="modal-btn" id="savePasswordBtn">Save New Password</button>
+            </div>
+        </div>
+        
+        <button class="modal-btn" id="closeAccountModalBtn" style="margin-top: 16px;">Close</button>
+    </div>
+</div>
+
+<div id="profileModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>My Profile</h3>
+            <button class="modal-close" id="closeProfileModal">&times;</button>
+        </div>
+        <form id="profileForm">
+            <div class="modal-field">
+                <label>First Name</label>
+                <input type="text" id="profileFirstName" placeholder="Enter your first name">
+            </div>
+            <div class="modal-field">
+                <label>Last Name</label>
+                <input type="text" id="profileLastName" placeholder="Enter your last name">
+            </div>
+            <div class="modal-field">
+                <label>Phone Number</label>
+                <input type="tel" id="profilePhone" placeholder="Enter your phone number">
+            </div>
+            <div class="modal-field">
+                <label>Delivery Address</label>
+                <textarea id="profileAddress" placeholder="Enter your delivery address"></textarea>
+            </div>
+            <button type="submit" class="modal-btn">Save Changes</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    let cart = [];
+    let currentUser = null;
+    let currentSelectedProduct = null;
+    let currentQuantity = 1;
+    let currentSize = "medium";
+    
+    const sizePrices = {
+        small: 0.7,
+        medium: 1.0,
+        large: 1.3
+    };
+    
+    const drinkBasePrices = {
+        22: 55,
+        23: 85,
+        24: 95,
+        25: 80,
+        26: 75,
+        27: 25
+    };
+    
+    const productDatabase = {
+        1: { name: "Pandesal", price: 8, desc: "Classic Filipino breakfast roll, soft and slightly sweet.", ingredients: "Flour, water, yeast, sugar, salt, eggs, butter", allergens: ["Gluten", "Eggs", "Dairy"], image: "images/pandesal.png", category: "Classic Filipino Breads", isDrink: false },
+        2: { name: "Ensaymada", price: 45, desc: "Soft, buttery pastry topped with grated cheese and sugar.", ingredients: "Flour, butter, sugar, eggs, milk, yeast, salt, cheese topping", allergens: ["Gluten", "Eggs", "Dairy"], image: "images/ensaymada.png", category: "Classic Filipino Breads", isDrink: false },
+        3: { name: "Pan de Coco", price: 12, desc: "Soft bun filled with sweet shredded coconut.", ingredients: "Flour, coconut, sugar, butter, yeast, salt", allergens: ["Gluten", "Dairy", "Coconut"], image: "images/pandecoco.png", category: "Classic Filipino Breads", isDrink: false },
+        4: { name: "Spanish Bread", price: 12, desc: "Soft roll with buttery, sweet breadcrumb filling.", ingredients: "Flour, butter, sugar, breadcrumbs, eggs, milk, yeast", allergens: ["Gluten", "Eggs", "Dairy"], image: "images/spanishbread.png", category: "Classic Filipino Breads", isDrink: false },
+        5: { name: "Monay", price: 10, desc: "Dense, slightly sweet bread perfect with coffee.", ingredients: "Flour, sugar, butter, eggs, milk, yeast, salt", allergens: ["Gluten", "Eggs", "Dairy"], image: "images/Monay.png", category: "Classic Filipino Breads", isDrink: false },
+        6: { name: "Putok", price: 8, desc: "Star-shaped bread with sweet buttery topping.", ingredients: "Flour, sugar, butter, eggs, milk, yeast, salt", allergens: ["Gluten", "Eggs", "Dairy"], image: "images/putok.png", category: "Classic Filipino Breads", isDrink: false },
+        7: { name: "Sourdough Loaf", price: 175, desc: "Tangy, crusty artisan bread with open crumb.", ingredients: "Bread flour, water, sourdough starter, salt", allergens: ["Gluten"], image: "images/sourdough.png", category: "Artisan Breads", isDrink: false },
+        8: { name: "Ciabatta", price: 140, desc: "Rustic Italian bread with crispy crust and airy crumb.", ingredients: "Wheat flour, water, olive oil, salt, yeast", allergens: ["Gluten"], image: "images/ciabatta.png", category: "Artisan Breads", isDrink: false },
+        9: { name: "Baguette", price: 95, desc: "Classic French bread, crispy outside, soft inside.", ingredients: "Wheat flour, water, yeast, salt", allergens: ["Gluten"], image: "images/baguette.png", category: "Artisan Breads", isDrink: false },
+        10: { name: "Focaccia", price: 160, desc: "Italian flatbread topped with rosemary and sea salt.", ingredients: "Wheat flour, olive oil, rosemary, sea salt, yeast", allergens: ["Gluten"], image: "images/focaccia.png", category: "Artisan Breads", isDrink: false },
+        11: { name: "Brioche", price: 150, desc: "Rich, buttery French bread perfect for sandwiches.", ingredients: "Flour, eggs, butter, sugar, milk, yeast", allergens: ["Gluten", "Eggs", "Dairy"], image: "images/brioche.png", category: "Artisan Breads", isDrink: false },
+        12: { name: "Butter Croissant", price: 125, desc: "Flaky, golden, and layered with European butter.", ingredients: "Flour, butter, water, sugar, yeast, salt", allergens: ["Gluten", "Dairy"], image: "images/croissant.png", category: "Pastries", isDrink: false },
+        13: { name: "Pain au Chocolat", price: 140, desc: "Dark chocolate tucked in a flaky pastry.", ingredients: "Flour, butter, dark chocolate, sugar, yeast, salt", allergens: ["Gluten", "Dairy", "Soy"], image: "images/painauchocolat.png", category: "Pastries", isDrink: false },
+        14: { name: "Danish Pastry", price: 110, desc: "Fruit-filled flaky pastry with cream cheese.", ingredients: "Flour, butter, fruit filling, sugar, eggs, yeast", allergens: ["Gluten", "Eggs", "Dairy"], image: "images/danishpastry.png", category: "Pastries", isDrink: false },
+        15: { name: "Almond Croissant", price: 155, desc: "Buttery croissant filled with almond frangipane.", ingredients: "Flour, butter, almond cream, sugar, almonds, yeast", allergens: ["Gluten", "Dairy", "Nuts"], image: "images/croissant.png", category: "Pastries", isDrink: false },
+        16: { name: "Chocolate Chip Cookie", price: 95, desc: "Gooey center, rich dark chocolate chunks.", ingredients: "Flour, butter, chocolate chips, sugar, eggs, vanilla", allergens: ["Gluten", "Eggs", "Dairy", "Soy"], image: "images/cookie.png", category: "Sweet Treats", isDrink: false },
+        17: { name: "Cinnamon Roll", price: 130, desc: "Swirled with brown sugar cinnamon & cream cheese glaze.", ingredients: "Flour, butter, cinnamon, brown sugar, cream cheese, eggs", allergens: ["Gluten", "Eggs", "Dairy"], image: "images/cinnamonroll.png", category: "Sweet Treats", isDrink: false },
+        18: { name: "Banana Walnut Loaf", price: 120, desc: "Moist banana bread with crunchy walnuts.", ingredients: "Flour, bananas, walnuts, sugar, eggs, butter", allergens: ["Gluten", "Eggs", "Dairy", "Nuts"], image: "images/bananabread.png", category: "Sweet Treats", isDrink: false },
+        19: { name: "Blueberry Muffin", price: 85, desc: "Fluffy muffin loaded with fresh blueberries.", ingredients: "Flour, blueberries, sugar, eggs, butter, milk", allergens: ["Gluten", "Eggs", "Dairy"], image: "images/blueberrymuffin.png", category: "Sweet Treats", isDrink: false },
+        20: { name: "Carrot Cake", price: 140, desc: "Spiced carrot cake with cream cheese frosting.", ingredients: "Flour, carrots, walnuts, cream cheese, sugar, eggs, oil", allergens: ["Gluten", "Eggs", "Dairy", "Nuts"], image: "images/carrotcake.png", category: "Sweet Treats", isDrink: false },
+        21: { name: "Brownie", price: 75, desc: "Fudgy chocolate brownie with walnuts.", ingredients: "Flour, chocolate, butter, sugar, eggs, cocoa", allergens: ["Gluten", "Eggs", "Dairy", "Soy"], image: "images/brownies.png", category: "Sweet Treats", isDrink: false },
+        22: { name: "Brewed Coffee", price: 55, desc: "Freshly brewed premium coffee, hot and aromatic.", ingredients: "100% Arabica coffee beans, water", allergens: ["None"], image: "images/coffee.png", category: "Drinks", isDrink: true },
+        23: { name: "Spanish Latte", price: 85, desc: "Smooth espresso with condensed milk and fresh milk.", ingredients: "Espresso, condensed milk, fresh milk", allergens: ["Dairy"], image: "images/spanishlatte.png", category: "Drinks", isDrink: true },
+        24: { name: "Matcha Latte", price: 95, desc: "Premium Japanese matcha with steamed milk.", ingredients: "Matcha powder, milk, sugar", allergens: ["Dairy"], image: "images/matchalatte.png", category: "Drinks", isDrink: true },
+        25: { name: "Iced Chocolate", price: 80, desc: "Rich chocolate drink served cold with whipped cream.", ingredients: "Chocolate, milk, whipped cream, sugar", allergens: ["Dairy"], image: "images/icedchocolate.png", category: "Drinks", isDrink: true },
+        26: { name: "Lemonade", price: 75, desc: "Refreshing homemade lemonade made with fresh lemons.", ingredients: "Lemon juice, sugar, water, mint", allergens: ["None"], image: "images/lemonade.png", category: "Drinks", isDrink: true },
+        27: { name: "Bottled Water", price: 25, desc: "Pure and refreshing bottled water, perfect to pair with your bread.", ingredients: "Purified water", allergens: ["None"], image: "images/bottledwater.png", category: "Drinks", isDrink: false }
+    };
+
+    function showToast(msg) {
+        const toast = document.getElementById('toastMsg');
+        toast.textContent = msg;
+        toast.style.opacity = "1";
+        setTimeout(() => { toast.style.opacity = "0"; }, 1800);
+    }
+
+    function formatPHP(amount) { return '₱' + amount.toFixed(2); }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    function checkLogin() {
+        const loggedIn = sessionStorage.getItem('doughkyoLoggedIn');
+        if (!loggedIn) {
+            window.location.href = 'login.html';
+            return false;
+        }
+        return true;
+    }
+
+    function loadUserData() {
+        const loggedIn = sessionStorage.getItem('doughkyoLoggedIn');
+        if (loggedIn) {
+            try {
+                currentUser = JSON.parse(loggedIn);
+                const userNameSpan = document.getElementById('userNameDisplay');
+                
+                if (currentUser.firstName) {
+                    userNameSpan.textContent = currentUser.firstName;
+                } else if (currentUser.name) {
+                    userNameSpan.textContent = currentUser.name;
+                } else {
+                    userNameSpan.textContent = currentUser.fullName || currentUser.email;
+                }
+                
+                const loginItem = document.getElementById('dropdownLogin');
+                if (loginItem) {
+                    loginItem.textContent = "My Account";
+                }
+            } catch(e) {}
+        }
+    }
+
+    function updateCartDisplay() {
+        const stored = sessionStorage.getItem('doughkyoCart');
+        if (stored) {
+            try { cart = JSON.parse(stored); } catch(e) {}
+        }
+        const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+        const cartCount = document.getElementById('cart-count');
+        if (cartCount) cartCount.innerText = totalItems;
+    }
+
+    function addToCart(productId, quantity, size) {
+        const product = productDatabase[productId];
+        if (!product) return;
+        
+        let finalPrice = product.price;
+        let itemName = product.name;
+        
+        if (product.isDrink && size) {
+            finalPrice = getDrinkPrice(productId, size);
+            itemName = `${product.name} (${size.charAt(0).toUpperCase() + size.slice(1)})`;
+        }
+        
+        const existing = cart.find(i => i.id === productId && i.size === size);
+        if (existing) {
+            existing.quantity += quantity;
+        } else {
+            cart.push({ id: productId, name: itemName, price: finalPrice, quantity: quantity, size: size });
+        }
+        sessionStorage.setItem('doughkyoCart', JSON.stringify(cart));
+        updateCartDisplay();
+        showToast(`+${quantity} ${itemName} added to cart`);
+    }
+
+    function showProductDetails(productId) {
+        const product = productDatabase[productId];
+        if (!product) return;
+        
+        currentSelectedProduct = productId;
+        currentQuantity = 1;
+        currentSize = "medium";
+        document.getElementById('selectedQuantity').textContent = currentQuantity;
+        
+        document.getElementById('productModalTitle').textContent = product.name;
+        
+        if (product.isDrink) {
+            const mediumPrice = getDrinkPrice(productId, "medium");
+            document.getElementById('productModalPrice').textContent = formatPHP(mediumPrice);
+            document.getElementById('sizeSelectorContainer').style.display = 'flex';
+            
+            document.querySelectorAll('.size-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-size') === 'medium') {
+                    btn.classList.add('active');
+                }
+            });
+        } else {
+            document.getElementById('productModalPrice').textContent = formatPHP(product.price);
+            document.getElementById('sizeSelectorContainer').style.display = 'none';
+        }
+        
+        document.getElementById('productModalIngredients').textContent = product.ingredients;
+        
+        const allergensHtml = product.allergens.map(a => `<span class="allergen-tag">${escapeHtml(a)}</span>`).join('');
+        document.getElementById('productModalAllergens').innerHTML = allergensHtml;
+        
+        const imgElement = document.getElementById('productModalImage');
+        imgElement.style.backgroundImage = `url('${product.image}')`;
+        imgElement.style.backgroundSize = 'contain';
+        imgElement.style.backgroundPosition = 'center';
+        imgElement.style.backgroundRepeat = 'no-repeat';
+        
+        document.getElementById('productDetailModal').classList.add('active');
+    }
+
+    function closeProductModal() {
+        document.getElementById('productDetailModal').classList.remove('active');
+        currentSelectedProduct = null;
+        currentQuantity = 1;
+        currentSize = "medium";
+    }
+
+    function addCurrentProductToCart() {
+        if (currentSelectedProduct) {
+            const product = productDatabase[currentSelectedProduct];
+            if (product.isDrink) {
+                addToCart(currentSelectedProduct, currentQuantity, currentSize);
+            } else {
+                addToCart(currentSelectedProduct, currentQuantity, null);
+            }
+            closeProductModal();
+        }
+    }
+
+    function getDrinkPrice(productId, size) {
+        const basePrice = drinkBasePrices[productId];
+        if (!basePrice) return 0;
+        return Math.round(basePrice * sizePrices[size]);
+    }
+
+    function renderCategorizedMenu() {
+        const categoriesContainer = document.getElementById('categoriesContainer');
+        if (!categoriesContainer) return;
+        
+        const grouped = {};
+        for (let id in productDatabase) {
+            const item = productDatabase[id];
+            if (!grouped[item.category]) grouped[item.category] = [];
+            grouped[item.category].push({ id: parseInt(id), ...item });
+        }
+        
+        const categoryOrder = ["Classic Filipino Breads", "Artisan Breads", "Pastries", "Sweet Treats", "Drinks"];
+        let fullHtml = '';
+        for (let cat of categoryOrder) {
+            if (grouped[cat] && grouped[cat].length > 0) {
+                fullHtml += `<div class="bread-category"><div class="category-heading">${cat}</div><div class="menu-grid" data-category="${cat}"></div></div>`;
+            }
+        }
+        categoriesContainer.innerHTML = fullHtml;
+        
+        for (let cat of categoryOrder) {
+            if (grouped[cat]) {
+                const gridContainer = categoriesContainer.querySelector(`.menu-grid[data-category="${cat}"]`);
+                if (gridContainer) {
+                    let cardsHtml = '';
+                    grouped[cat].forEach(item => {
+                        let displayPrice = item.price;
+                        if (item.isDrink) {
+                            displayPrice = getDrinkPrice(item.id, "medium");
+                        }
+                        cardsHtml += `
+                            <div class="bakery-card" data-product-id="${item.id}" onclick="showProductDetails(${item.id})">
+                                <div class="card-img" style="background-image: url('${item.image}'); background-size: contain; background-position: center; background-repeat: no-repeat;"></div>
+                                <div class="card-info">
+                                    <div class="card-title">${escapeHtml(item.name)}</div>
+                                    <div class="card-desc">${escapeHtml(item.desc)}</div>
+                                    <div class="price-row">
+                                        <span class="price">${formatPHP(displayPrice)}</span>
+                                        <button class="add-btn" onclick="event.stopPropagation(); addToCart(${item.id}, 1, 'medium')">Add to Cart</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    gridContainer.innerHTML = cardsHtml;
+                }
+            }
+        }
+    }
+
+    function toggleDropdown() {
+        const dropdown = document.getElementById('dropdownMenu');
+        const arrow = document.getElementById('dropdownArrow');
+        dropdown.classList.toggle('active');
+        if (dropdown.classList.contains('active')) {
+            arrow.style.transform = 'rotate(180deg)';
+        } else {
+            arrow.style.transform = 'rotate(0deg)';
+        }
+    }
+    
+    function closeDropdown() {
+        const dropdown = document.getElementById('dropdownMenu');
+        const arrow = document.getElementById('dropdownArrow');
+        dropdown.classList.remove('active');
+        arrow.style.transform = 'rotate(0deg)';
+    }
+    
+    function logout() {
+    sessionStorage.removeItem('doughkyoLoggedIn');
+    showToast('Logged out successfully!');
+    setTimeout(() => {
+        window.location.href = 'login.html';
+    }, 1000);
+}
+    
+    function openAccountModal() {
+        if (!currentUser) {
+            window.location.href = 'login.html';
+            return;
+        }
+        
+        document.getElementById('accountName').textContent = (currentUser.firstName || '') + ' ' + (currentUser.lastName || '');
+        document.getElementById('accountEmail').textContent = currentUser.email;
+        document.getElementById('accountPhone').textContent = currentUser.phone || 'Not provided';
+        
+        let memberSince = sessionStorage.getItem('doughkyoMemberSince');
+        if (!memberSince) {
+            memberSince = new Date().toLocaleDateString();
+            sessionStorage.setItem('doughkyoMemberSince', memberSince);
+        }
+        document.getElementById('accountMemberSince').textContent = memberSince;
+        
+        document.getElementById('changePasswordForm').style.display = 'none';
+        document.getElementById('currentPassword').value = '';
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmNewPassword').value = '';
+        
+        document.getElementById('accountModal').classList.add('active');
+    }
+    
+    function closeAccountModal() {
+        document.getElementById('accountModal').classList.remove('active');
+    }
+    
+    function openProfileModal() {
+        if (!currentUser) {
+            window.location.href = 'login.html';
+            return;
+        }
+        
+        document.getElementById('profileFirstName').value = currentUser.firstName || '';
+        document.getElementById('profileLastName').value = currentUser.lastName || '';
+        document.getElementById('profilePhone').value = currentUser.phone || '';
+        
+        const savedAddress = sessionStorage.getItem('doughkyoAddress');
+        if (savedAddress) {
+            document.getElementById('profileAddress').value = savedAddress;
+        } else {
+            document.getElementById('profileAddress').value = '';
+        }
+        
+        document.getElementById('profileModal').classList.add('active');
+    }
+    
+    function closeProfileModal() {
+        document.getElementById('profileModal').classList.remove('active');
+    }
+    
+    function saveProfileChanges(e) {
+        e.preventDefault();
+        
+        if (!currentUser) return;
+        
+        const newFirstName = document.getElementById('profileFirstName').value.trim();
+        const newLastName = document.getElementById('profileLastName').value.trim();
+        const newPhone = document.getElementById('profilePhone').value.trim();
+        const newAddress = document.getElementById('profileAddress').value.trim();
+        
+        if (newFirstName) currentUser.firstName = newFirstName;
+        if (newLastName) currentUser.lastName = newLastName;
+        if (newPhone) currentUser.phone = newPhone;
+        
+        sessionStorage.setItem('doughkyoLoggedIn', JSON.stringify(currentUser));
+        
+        let users = [];
+        const storedUsers = sessionStorage.getItem('doughkyoUsers');
+        if (storedUsers) {
+            try {
+                users = JSON.parse(storedUsers);
+                const userIndex = users.findIndex(u => u.email === currentUser.email);
+                if (userIndex !== -1) {
+                    users[userIndex].firstName = currentUser.firstName;
+                    users[userIndex].lastName = currentUser.lastName;
+                    users[userIndex].phone = currentUser.phone;
+                    sessionStorage.setItem('doughkyoUsers', JSON.stringify(users));
+                }
+            } catch(e) {}
+        }
+        
+        if (newAddress) {
+            sessionStorage.setItem('doughkyoAddress', newAddress);
+        }
+        
+        loadUserData();
+        showToast('Profile updated successfully!');
+        closeProfileModal();
+    }
+    
+    function changePassword() {
+        const currentPwd = document.getElementById('currentPassword').value.trim();
+        const newPwd = document.getElementById('newPassword').value.trim();
+        const confirmPwd = document.getElementById('confirmNewPassword').value.trim();
+        
+        if (!currentPwd || !newPwd || !confirmPwd) {
+            showToast('Please fill in all password fields');
+            return;
+        }
+        
+        if (currentPwd !== currentUser.password) {
+            showToast('Current password is incorrect');
+            return;
+        }
+        
+        if (newPwd.length < 6) {
+            showToast('New password must be at least 6 characters');
+            return;
+        }
+        
+        if (newPwd !== confirmPwd) {
+            showToast('New passwords do not match');
+            return;
+        }
+        
+        currentUser.password = newPwd;
+        sessionStorage.setItem('doughkyoLoggedIn', JSON.stringify(currentUser));
+        
+        let users = [];
+        const storedUsers = sessionStorage.getItem('doughkyoUsers');
+        if (storedUsers) {
+            try {
+                users = JSON.parse(storedUsers);
+                const userIndex = users.findIndex(u => u.email === currentUser.email);
+                if (userIndex !== -1) {
+                    users[userIndex].password = newPwd;
+                    sessionStorage.setItem('doughkyoUsers', JSON.stringify(users));
+                }
+            } catch(e) {}
+        }
+        
+        showToast('Password changed successfully!');
+        document.getElementById('changePasswordForm').style.display = 'none';
+        document.getElementById('currentPassword').value = '';
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmNewPassword').value = '';
+    }
+
+    window.showProductDetails = showProductDetails;
+    window.addToCart = addToCart;
+    window.closeProductModal = closeProductModal;
+    window.addCurrentProductToCart = addCurrentProductToCart;
+
+    document.addEventListener('DOMContentLoaded', function() {
+        if (!checkLogin()) return;
+        
+        renderCategorizedMenu();
+        loadUserData();
+        updateCartDisplay();
+        
+        const userProfileBtn = document.getElementById('userProfileBtn');
+        if (userProfileBtn) {
+            userProfileBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleDropdown();
+            });
+        }
+        
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('dropdownMenu');
+            const userDropdown = document.querySelector('.user-dropdown');
+            if (dropdown && userDropdown && !userDropdown.contains(e.target)) {
+                closeDropdown();
+            }
+        });
+        
+        const logoutBtn = document.getElementById('dropdownLogout');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                logout();
+                closeDropdown();
+            });
+        }
+        
+        const profileItem = document.getElementById('dropdownProfile');
+        if (profileItem) {
+            profileItem.addEventListener('click', function(e) {
+                e.preventDefault();
+                openProfileModal();
+                closeDropdown();
+            });
+        }
+        
+        const loginItem = document.getElementById('dropdownLogin');
+        if (loginItem) {
+            loginItem.addEventListener('click', function(e) {
+                e.preventDefault();
+                openAccountModal();
+                closeDropdown();
+            });
+        }
+        
+        document.getElementById('closeProductModalBtn')?.addEventListener('click', closeProductModal);
+        document.getElementById('closeProductModalFooterBtn')?.addEventListener('click', closeProductModal);
+        document.getElementById('addFromModalBtn')?.addEventListener('click', addCurrentProductToCart);
+        document.getElementById('productDetailModal')?.addEventListener('click', (e) => {
+            if (e.target === document.getElementById('productDetailModal')) closeProductModal();
+        });
+        
+        document.getElementById('decrementQty')?.addEventListener('click', function() {
+            if (currentQuantity > 1) {
+                currentQuantity--;
+                document.getElementById('selectedQuantity').textContent = currentQuantity;
+            }
+        });
+        
+        document.getElementById('incrementQty')?.addEventListener('click', function() {
+            currentQuantity++;
+            document.getElementById('selectedQuantity').textContent = currentQuantity;
+        });
+        
+        document.querySelectorAll('.size-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentSize = this.getAttribute('data-size');
+                if (currentSelectedProduct) {
+                    const newPrice = getDrinkPrice(currentSelectedProduct, currentSize);
+                    document.getElementById('productModalPrice').textContent = formatPHP(newPrice);
+                }
+            });
+        });
+        
+        const closeAccountBtn1 = document.getElementById('closeAccountModal');
+        const closeAccountBtn2 = document.getElementById('closeAccountModalBtn');
+        if (closeAccountBtn1) closeAccountBtn1.addEventListener('click', closeAccountModal);
+        if (closeAccountBtn2) closeAccountBtn2.addEventListener('click', closeAccountModal);
+        
+        const closeProfileBtn = document.getElementById('closeProfileModal');
+        if (closeProfileBtn) closeProfileBtn.addEventListener('click', closeProfileModal);
+        
+        const profileForm = document.getElementById('profileForm');
+        if (profileForm) profileForm.addEventListener('submit', saveProfileChanges);
+        
+        const showChangePasswordBtn = document.getElementById('showChangePasswordBtn');
+        if (showChangePasswordBtn) {
+            showChangePasswordBtn.addEventListener('click', function() {
+                const form = document.getElementById('changePasswordForm');
+                if (form.style.display === 'none') {
+                    form.style.display = 'block';
+                    showChangePasswordBtn.textContent = 'Cancel';
+                } else {
+                    form.style.display = 'none';
+                    showChangePasswordBtn.textContent = 'Change Password';
+                    document.getElementById('currentPassword').value = '';
+                    document.getElementById('newPassword').value = '';
+                    document.getElementById('confirmNewPassword').value = '';
+                }
+            });
+        }
+        
+        const savePasswordBtn = document.getElementById('savePasswordBtn');
+        if (savePasswordBtn) {
+            savePasswordBtn.addEventListener('click', changePassword);
+        }
+        
+        window.addEventListener('click', function(e) {
+            const accountModal = document.getElementById('accountModal');
+            const profileModal = document.getElementById('profileModal');
+            if (e.target === accountModal) closeAccountModal();
+            if (e.target === profileModal) closeProfileModal();
+        });
+    });
+</script>
+</body>
+</html>
