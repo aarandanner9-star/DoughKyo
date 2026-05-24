@@ -318,10 +318,6 @@
                     <input type="email" id="signupEmail" placeholder="Enter your email" required>
                 </div>
                 <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="tel" id="signupPhone" placeholder="Enter your phone number">
-                </div>
-                <div class="form-group">
                     <label>Password</label>
                     <input type="password" id="signupPassword" placeholder="Create a password (min 6 characters)" required>
                 </div>
@@ -458,7 +454,6 @@
                 const firstName = document.getElementById('signupFirstName').value.trim();
                 const lastName = document.getElementById('signupLastName').value.trim();
                 const email = document.getElementById('signupEmail').value.trim();
-                const phone = document.getElementById('signupPhone').value.trim();
                 const password = document.getElementById('signupPassword').value.trim();
                 const confirmPassword = document.getElementById('signupConfirmPassword').value.trim();
                 
@@ -493,7 +488,7 @@
                     lastName: lastName,
                     email: email,
                     password: password,
-                    phone: phone || ''
+                    phone: ''
                 };
                 
                 users.push(newUser);
